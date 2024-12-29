@@ -9,8 +9,7 @@
         "preview": "npm run build:prod && vite preview",
         "report": "vite build --mode prod",
         "lint": "eslint --config .eslintrc.cjs --ext .js,.vue --no-cache --fix src",
-        "prettier": "prettier --config .prettierrc.cjs --write src/*.{js,vue} src/**/*.{js,vue}",
-        "prepare": "husky install"
+        "prettier": "prettier --config .prettierrc.cjs --write src/*.{js,vue} src/**/*.{js,vue}"
     },
     "lint-staged": {
         "src/(**/)?*.{js,vue}": [
@@ -67,7 +66,6 @@
         "eslint-plugin-import": "^2.30.0",
         "eslint-plugin-prettier": "^5.2.1",
         "eslint-plugin-vue": "^9.28.0",
-        "husky": "^8.0.3",
         "less": "^4.2.0",
         "lint-staged": "^15.2.0",
         "marked": "^14.1.2",
