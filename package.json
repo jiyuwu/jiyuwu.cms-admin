@@ -49,9 +49,7 @@
         "vue": "^3.5.6",
         "vue-draggable-plus": "^0.5.3",
         "vue-router": "^4.4.5",
-        "xy-enum": "^1.4.4",
-        "xy-http": "^1.0.0",
-        "xy-storage": "^3.1.1"
+        "xy-enum": "^1.4.4"
     },
     "devDependencies": {
         "@commitlint/cli": "^18.4.3",
