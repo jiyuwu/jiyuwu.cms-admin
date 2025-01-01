@@ -1,4 +1,4 @@
-import Enum from 'xy-enum'
+import Enum from '../../utils/enum'
 
 // 状态
 export const STATUS_ENUM = new Enum([

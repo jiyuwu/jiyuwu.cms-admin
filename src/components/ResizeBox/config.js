@@ -1,4 +1,4 @@
-import Enum from 'xy-enum'
+import Enum from '../../utils/enum'
 
 export const DIRECTION_LEFT = 'left'
 export const DIRECTION_RIGHT = 'right'

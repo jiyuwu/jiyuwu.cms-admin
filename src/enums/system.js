@@ -1,4 +1,4 @@
-import Enum from 'xy-enum'
+import Enum from '../utils/enum'
 
 // 菜单类型
 export const menuTypeEnum = new Enum([

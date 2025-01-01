@@ -1,4 +1,4 @@
-import Enum from 'xy-enum'
+import Enum from '../../utils/enum'
 
 export const ACTION_ENUM = new Enum([
     { label: 'zoomOut', value: 'zoomOut', desc: '缩小' },
