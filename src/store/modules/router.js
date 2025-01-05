@@ -6,6 +6,10 @@ import { config } from '@/config'
 import router from '@/router'
 import apis from '@/apis'
 import routes from '@/router/routes'
+import useAppStore from './app'
+import useMultiTab from './multiTab'
+// import useRouter from './router'
+import storage from '@/utils/storage'
 
 const useRouterStore = defineStore('router', {
     state: () => ({
@@ -38,6 +42,21 @@ const useRouterStore = defineStore('router', {
                             this.menuList = menuList
                             this.indexRoute = indexRoute
                             resolve()
+                        } else {
+                            const appStore = useAppStore()
+                            const multiTab = useMultiTab()
+                            //const router = useRouter()
+                            storage.local.removeItem(config('storage.token'))
+                            storage.local.removeItem(config('storage.userInfo'))
+                            this.$reset()
+                            appStore.$reset()
+                            multiTab.$reset()
+                            // router.$reset()
+                            // router.push({
+                            //     name: 'login',
+                            // }) // 进行页面跳转到登录页
+                            //router.replace({ name: 'login' })
+                            resolve({ shouldRedirect: true }) // 这里返回一个标识符表示需要路由跳转
                         }
                     } catch (error) {
                         reject()
