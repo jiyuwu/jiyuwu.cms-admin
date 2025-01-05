@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 获取动态列表
-export const getDynamicList = () => request.basic.get('/dynamic')
+export const getDynamicList = () => request.basic.get('/Base_Db/Dynamic')
 
 // 获取分页列表
 export const getPageList = (params) => request.basic.get('/data', params, { enableAbortController: false })
