@@ -8,8 +8,8 @@ import apis from '@/apis'
 import routes from '@/router/routes'
 import useAppStore from './app'
 import useMultiTab from './multiTab'
-// import useRouter from './router'
 import storage from '@/utils/storage'
+import { useUserStore } from '@/store'
 
 const useRouterStore = defineStore('router', {
     state: () => ({
@@ -45,18 +45,34 @@ const useRouterStore = defineStore('router', {
                         } else {
                             const appStore = useAppStore()
                             const multiTab = useMultiTab()
-                            //const router = useRouter()
                             storage.local.removeItem(config('storage.token'))
                             storage.local.removeItem(config('storage.userInfo'))
                             this.$reset()
                             appStore.$reset()
                             multiTab.$reset()
-                            // router.$reset()
+                            //router.$reset()
+
+                            const userStore = useUserStore()
+                            // 退出登录，isLogin 会自动变为 false
+                            userStore.logout().then(() => {
+                                router.push({
+                                    name: 'login',
+                                })
+                            })
+                            // 检查是否存在指定的路由
+                            // if (router.hasRoute('login')) {
+                            //     console.log('路由已经存在')
+                            // } else {
+                            //     console.log('路由不存在')
+                            // }
                             // router.push({
                             //     name: 'login',
                             // }) // 进行页面跳转到登录页
-                            //router.replace({ name: 'login' })
-                            resolve({ shouldRedirect: true }) // 这里返回一个标识符表示需要路由跳转
+                            // router.replace({
+                            //     name: 'login', // 跳转到登录页
+                            //     query: { redirect: encodeURIComponent(location.href) }, // 可选：携带当前地址，用于登录后跳转回原页面
+                            // })
+                            resolve() // 这里返回一个标识符表示需要路由跳转
                         }
                     } catch (error) {
                         reject()
