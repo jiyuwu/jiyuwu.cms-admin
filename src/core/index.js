@@ -1,5 +1,5 @@
 import antd from 'ant-design-vue'
-import components from '@/components'
+// import components from '@/components'
 import { setupDirective } from '@/directives'
 import { setupRouter } from '@/router'
 import { setupStore } from '@/store'
@@ -13,7 +13,7 @@ useCheckUpdate()
 
 export const useCore = (app) => {
     app.use(antd)
-    app.use(components)
+    // app.use(components)
     setupException(app)
     setupStore(app)
     setupRouter(app)

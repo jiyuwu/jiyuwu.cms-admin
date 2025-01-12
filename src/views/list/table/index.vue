@@ -89,17 +89,6 @@
                             </a-menu>
                         </template>
                     </a-dropdown>
-                    <x-table-column-setting
-                        ref="tableColumnSettingRef"
-                        v-model:columns="columns">
-                        <a-tooltip title="列设置">
-                            <a-button type="text">
-                                <template #icon>
-                                    <setting-outlined></setting-outlined>
-                                </template>
-                            </a-button>
-                        </a-tooltip>
-                    </x-table-column-setting>
                 </a-space>
             </template>
         </x-toolbar>
@@ -148,14 +137,12 @@ import {
     PlusOutlined,
     QuestionCircleOutlined,
     ReloadOutlined,
-    SettingOutlined,
     UpOutlined,
 } from '@ant-design/icons-vue'
 import apis from '@/apis'
 import { config } from '@/config'
 import { usePagination } from '@/hooks'
 import EditDialog from './components/EditDialog.vue'
-import { TableColumnSetting as XTableColumnSetting } from '@/components'
 
 defineOptions({
     name: 'listTable',
@@ -172,7 +159,6 @@ const columns = ref([
     { title: '操作', key: 'action', width: 160 },
 ])
 const editDialogRef = ref()
-const tableColumnSettingRef = ref()
 const collapsed = ref(true)
 const size = ref('default')
 
