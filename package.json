@@ -29,6 +29,7 @@
         "cropperjs": "^1.6.2",
         "dayjs": "^1.11.13",
         "echarts": "^5.5.1",
+        "element-plus": "^2.9.3",
         "filesize": "^10.1.6",
         "filesize-parser": "^1.5.1",
         "highlight.js": "^11.10.0",
