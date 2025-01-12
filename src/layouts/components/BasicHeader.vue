@@ -31,24 +31,22 @@
 
                 <a-dropdown>
                     <action-button>
-                        <github-outlined></github-outlined>
+                        <global-outlined></global-outlined>
                     </action-button>
                     <template #overlay>
                         <a-menu>
                             <a-menu-item>
                                 <a
                                     class="color-text"
-                                    href="https://github.com/mengxianghan/xy-admin"
-                                    target="_blank">
-                                    GitHub
+                                    @click="switchLanguage('zh')">
+                                    中文
                                 </a>
                             </a-menu-item>
                             <a-menu-item>
                                 <a
                                     class="color-text"
-                                    href="https://gitee.com/1056811341/xy-admin"
-                                    target="_blank">
-                                    Gitee
+                                    @click="switchLanguage('en')">
+                                    English
                                 </a>
                             </a-menu-item>
                         </a-menu>
@@ -92,7 +90,7 @@ import { Modal, theme as antTheme } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
 import { computed, useSlots } from 'vue'
 import { useRouter } from 'vue-router'
-import { LoginOutlined, SettingOutlined, BookOutlined, GithubOutlined } from '@ant-design/icons-vue'
+import { LoginOutlined, SettingOutlined, BookOutlined, GlobalOutlined } from '@ant-design/icons-vue'
 import { useAppStore, useUserStore } from '@/store'
 import ActionButton from './ActionButton.vue'
 
@@ -153,6 +151,14 @@ function handleLogout() {
             })
         },
     })
+}
+
+/**
+ * 切换语言
+ */
+function switchLanguage(language) {
+    // 假设你有一个 i18n 实例来处理多语言
+    this.$i18n.locale = language
 }
 
 /**
