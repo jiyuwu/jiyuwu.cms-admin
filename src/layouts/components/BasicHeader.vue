@@ -38,14 +38,18 @@
                             <a-menu-item>
                                 <a
                                     class="color-text"
-                                    @click="switchLanguage('zh')">
+                                    @click="switchLanguage('zh')"
+                                    :class="{ 'selected-lang': locale === 'zh' }">
+                                    <check-outlined v-show="locale === 'zh'" />
                                     中文
                                 </a>
                             </a-menu-item>
                             <a-menu-item>
                                 <a
                                     class="color-text"
-                                    @click="switchLanguage('en')">
+                                    @click="switchLanguage('en')"
+                                    :class="{ 'selected-lang': locale === 'en' }">
+                                    <check-outlined v-show="locale === 'en'" />
                                     English
                                 </a>
                             </a-menu-item>
@@ -88,28 +92,35 @@
 <script setup>
 import { Modal, theme as antTheme } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
-import { computed, useSlots } from 'vue'
+import { computed, useSlots, onMounted, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { LoginOutlined, SettingOutlined, BookOutlined, GlobalOutlined } from '@ant-design/icons-vue'
+import { LoginOutlined, SettingOutlined, BookOutlined, GlobalOutlined, CheckOutlined } from '@ant-design/icons-vue'
 import { useAppStore, useUserStore } from '@/store'
 import ActionButton from './ActionButton.vue'
+import { useI18n } from 'vue-i18n'
 
+// 初始化多语言
+const { locale } = useI18n()
+
+// 设置组件名称
 defineOptions({
     name: 'BasicHeader',
 })
 
-/**
- * @property {string} theme 主题【light=亮色，dark=暗色】
- */
+// 组件的 Props
 const props = defineProps({
     theme: {
         type: String,
     },
 })
+
+// Emits
 const emit = defineEmits(['config'])
 
+// 获取 slots
 const slots = useSlots(['default', 'left', 'right'])
 
+// Pinia Stores
 const userStore = useUserStore()
 const appStore = useAppStore()
 const router = useRouter()
@@ -118,6 +129,7 @@ const { config } = storeToRefs(appStore)
 const { userInfo } = storeToRefs(userStore)
 const { token } = antTheme.useToken()
 
+// 样式和类名计算
 const cpClassNames = computed(() => ({
     [`basic-header--${props.theme}`]: true,
 }))
@@ -135,9 +147,22 @@ const cpStyles = computed(() => {
 const cpShowLeftSlot = computed(() => !!slots.left)
 const cpShowDefaultSlot = computed(() => !!slots.default)
 
-/**
- * 退出登录
- */
+// 设置初始语言
+onMounted(() => {
+    const savedLocale = localStorage.getItem('lang')
+    locale.value = savedLocale || 'zh' // 默认设置为 'zh'
+    console.log('初始语言:', locale.value) // 确保初始值正确
+})
+
+// 监听语言变化
+watch(locale, (newVal, oldVal) => {
+    console.log('语言从', oldVal, '切换到', newVal)
+    nextTick(() => {
+        console.log('DOM 更新完成')
+    })
+})
+
+// 退出登录方法
 function handleLogout() {
     Modal.confirm({
         title: '注销登录？',
@@ -153,17 +178,14 @@ function handleLogout() {
     })
 }
 
-/**
- * 切换语言
- */
+// 切换语言方法
 function switchLanguage(language) {
-    // 假设你有一个 i18n 实例来处理多语言
-    this.$i18n.locale = language
+    console.log('切换语言:', language)
+    locale.value = language
+    localStorage.setItem('lang', language)
 }
 
-/**
- * 配置
- */
+// 配置方法
 function handleConfig() {
     emit('config')
 }
@@ -178,7 +200,6 @@ function handleConfig() {
     display: flex;
     align-items: center;
     padding-inline: 16px;
-    // box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
     &__left {
         flex-shrink: 0;
@@ -217,12 +238,14 @@ function handleConfig() {
         }
     }
 
-    :deep(.basic-menu) {
-        .basic-menu__title {
-            .ant-badge {
-                margin-top: -2px;
-            }
-        }
+    .selected-lang {
+        color: #1890ff !important;
+        font-weight: bold !important;
+    }
+
+    :deep(.anticon-check) {
+        color: #1890ff !important;
+        margin-right: 4px !important;
     }
 }
 </style>

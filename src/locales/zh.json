@@ -1,0 +1,11 @@
+{
+    "message": {
+      "hello": "你好，世界！"
+    },
+    "buttons": {
+      "login": "登录"
+    },
+    "menus": {
+      "home": "首页"
+    }
+  }

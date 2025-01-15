@@ -1,0 +1,11 @@
+{
+    "message": {
+      "hello": "Hello, World!"
+    },
+    "buttons": {
+      "login": "Login"
+    },
+    "menus": {
+      "home": "Home"
+    }
+  }
