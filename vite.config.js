@@ -25,6 +25,7 @@ export default ({ mode }) => {
                         echarts: ['echarts'],
                         'lodash-es': ['lodash-es'],
                         'ant-design-vue': ['ant-design-vue'],
+                        'element-plus': ['element-plus'],
                         jschardet: ['jschardet'],
                         qrcode: ['qrcode'],
                         cropper: ['cropperjs'],
@@ -53,13 +54,7 @@ export default ({ mode }) => {
                 version: pkg.version,
             }),
         },
-        plugins: [
-            useVuePlugin(),
-            useProgressPlugin(),
-            useCompressPlugin(),
-            useVisualizerPlugin(),
-            useEslintPlugin(),
-        ],
+        plugins: [useVuePlugin(), useProgressPlugin(), useCompressPlugin(), useVisualizerPlugin(), useEslintPlugin()],
         server: useServer(),
         resolve: {
             alias: {

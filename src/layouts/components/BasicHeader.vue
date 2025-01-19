@@ -18,7 +18,7 @@
         <!-- 右侧 -->
         <div class="basic-header__right">
             <a-space :size="8">
-                <a-tooltip title="使用文档">
+                <!-- <a-tooltip title="使用文档">
                     <a
                         class="color-text"
                         href="http://xy-admin-docs.xuanyunet.com"
@@ -27,7 +27,7 @@
                             <book-outlined></book-outlined>
                         </action-button>
                     </a>
-                </a-tooltip>
+                </a-tooltip> -->
 
                 <a-dropdown>
                     <action-button>
@@ -94,10 +94,11 @@ import { Modal, theme as antTheme } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
 import { computed, useSlots, onMounted, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { LoginOutlined, SettingOutlined, BookOutlined, GlobalOutlined, CheckOutlined } from '@ant-design/icons-vue'
+import { LoginOutlined, SettingOutlined, GlobalOutlined, CheckOutlined } from '@ant-design/icons-vue'
 import { useAppStore, useUserStore } from '@/store'
 import ActionButton from './ActionButton.vue'
 import { useI18n } from 'vue-i18n'
+//import { i18n } from '@/core'
 
 // 初始化多语言
 const { locale } = useI18n()
@@ -183,6 +184,8 @@ function switchLanguage(language) {
     console.log('切换语言:', language)
     locale.value = language
     localStorage.setItem('lang', language)
+    //i18n.global.locale.value = language
+    location.reload() // 重新加载以应用语言变更
 }
 
 // 配置方法

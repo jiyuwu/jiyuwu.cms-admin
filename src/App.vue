@@ -1,6 +1,8 @@
 <template>
     <a-config-provider v-bind="configProviderAttrs">
-        <router-view />
+        <el-config-provider :locale="configProviderAttrs.elementLocale">
+            <router-view />
+        </el-config-provider>
     </a-config-provider>
 </template>
 

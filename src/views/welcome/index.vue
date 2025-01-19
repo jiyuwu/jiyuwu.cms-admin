@@ -4,6 +4,18 @@
         <p class="mb-0">某某某公司－某某某部门－某某某岗位</p>
         <p>{{ $t('message.hello') }}</p>
         <button>{{ $t('buttons.login') }}</button>
+        <!-- Ant Design Vue 分页组件 -->
+        <a-pagination
+            :total="50"
+            :page-size="10"
+            show-size-changer
+            show-quick-jumper />
+
+        <!-- Element Plus 分页组件 -->
+        <el-pagination
+            background
+            layout="prev, pager, next, jumper, ->, total"
+            :total="50" />
     </a-card>
 
     <a-row :gutter="16">
