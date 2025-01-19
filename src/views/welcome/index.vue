@@ -4,6 +4,12 @@
         <p class="mb-0">某某某公司－某某某部门－某某某岗位</p>
         <p>{{ $t('message.hello') }}</p>
         <button>{{ $t('buttons.login') }}</button>
+        <el-date-picker
+            v-model="selectedDate"
+            @change="handleDateChange" />
+        <a-date-picker
+            v-model:value="selectedMomentDate"
+            @change="handleDateChange" />
         <!-- Ant Design Vue 分页组件 -->
         <a-pagination
             :total="50"
@@ -91,6 +97,9 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import dayjs from 'dayjs'
+import moment from 'moment'
 import { config } from '@/config'
 import { useUserStore } from '@/store'
 import { assets } from '@/utils'
@@ -108,6 +117,18 @@ const title = config('app.title')
 const { version } = __APP_INFO__
 
 const { userInfo } = storeToRefs(userStore)
+
+// 初始化日期
+const selectedDate = ref(dayjs().toDate())
+
+const selectedMomentDate = ref(moment('2025-01-18', 'YYYY-MM-DD'))
+console.log('selectedMomentDate:', selectedMomentDate.value)
+
+// 处理日期变化
+const handleDateChange = (date) => {
+    selectedDate.value = date
+    console.log('选择的日期:', dayjs(date).format('YYYY-MM-DD'))
+}
 
 getDynamicList()
 
