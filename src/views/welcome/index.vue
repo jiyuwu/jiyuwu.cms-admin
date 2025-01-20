@@ -9,7 +9,7 @@
             @change="handleDateChange" />
         <a-date-picker
             v-model:value="selectedMomentDate"
-            @change="handleDateChange" />
+            @change="handleMomentDateChange" />
         <!-- Ant Design Vue 分页组件 -->
         <a-pagination
             :total="50"
@@ -99,7 +99,6 @@
 <script setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
-import moment from 'moment'
 import { config } from '@/config'
 import { useUserStore } from '@/store'
 import { assets } from '@/utils'
@@ -121,13 +120,18 @@ const { userInfo } = storeToRefs(userStore)
 // 初始化日期
 const selectedDate = ref(dayjs().toDate())
 
-const selectedMomentDate = ref(moment('2025-01-18', 'YYYY-MM-DD'))
-console.log('selectedMomentDate:', selectedMomentDate.value)
+const selectedMomentDate = ref(dayjs('2015-06', 'YYYY-MM'))
+console.log('selectedMomentDate:', selectedMomentDate.value.format('YYYY-MM-DD'))
 
 // 处理日期变化
 const handleDateChange = (date) => {
     selectedDate.value = date
     console.log('选择的日期:', dayjs(date).format('YYYY-MM-DD'))
+}
+
+const handleMomentDateChange = (date) => {
+    selectedMomentDate.value = date
+    console.log('选择的日期:', date.format('YYYY-MM-DD'))
 }
 
 getDynamicList()
