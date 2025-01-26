@@ -7,7 +7,7 @@ export default [
         component: 'RouteViewLayout',
         meta: {
             icon: TableOutlined,
-            title: '列表页',
+            title: 'message.hello',
             isMenu: true,
             keepAlive: true,
         },

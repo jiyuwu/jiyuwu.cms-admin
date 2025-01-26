@@ -79,6 +79,8 @@ import { storeToRefs } from 'pinia'
 import { CloseOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import { useAppStore, useMultiTabStore } from '@/store'
 import { useMultiTab } from '@/hooks'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({
     name: 'MultiTab',
@@ -99,7 +101,18 @@ const { config } = storeToRefs(appStore)
 const spin = ref(false)
 const multiTabRef = ref()
 
-const cpMultiTabList = computed(() => multiTabStore.list)
+const cpMultiTabList = computed(() => {
+    return multiTabStore.list.map((item) => {
+        console.log(item)
+        return {
+            ...item,
+            meta: {
+                ...item.meta,
+                title: t(item.meta?.title || item.title), // 使用 t 函数翻译标题
+            },
+        }
+    })
+})
 const cpCurrent = computed(() => multiTabStore.current)
 const cpShowCloseBtn = computed(() => cpMultiTabList.value.length > 1)
 const cpShowCloseOtherBtn = computed(() => cpMultiTabList.value.length > 1)

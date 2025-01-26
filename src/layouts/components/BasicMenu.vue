@@ -22,6 +22,8 @@ import { mapping } from '@/utils'
 import { Badge } from 'ant-design-vue'
 import { useAppStore } from '@/store'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({
     name: 'BasicMenu',
@@ -78,7 +80,7 @@ watch(
                 key: 'name',
                 label: (item) =>
                     h('span', { class: 'basic-menu__title' }, [
-                        h('span', { class: 'basic-menu__name' }, item?.meta?.title),
+                        h('span', { class: 'basic-menu__name' }, t(item?.meta?.title)),
                         h(Badge, { count: item?.meta?.badge || 0 }),
                     ]),
                 icon: (item) => {
