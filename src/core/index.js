@@ -1,4 +1,5 @@
 import antd from 'ant-design-vue'
+import components from '@/components'
 import ElementPlus from 'element-plus'
 import { createI18n } from 'vue-i18n'
 import en from '@/locales/en.json'
@@ -49,6 +50,7 @@ export const useCore = (app) => {
     // })
     app.use(ElementPlus)
     app.use(antd)
+    app.use(components)
     app.use(i18n)
     // app.use(components)
     setupException(app)
