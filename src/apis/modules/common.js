@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export const getDynamicList = () => request.basic.get('/Base_Db/Dynamic')
 
 // 获取分页列表
-export const getPageList = (params) => request.basic.get('/data', params, { enableAbortController: false })
+export const getPageList = (params) => request.basic.get('/Base_User/Data', params, { enableAbortController: false })
 // 删除
 export const del = () => request.basic.delete(`/data`)
 // 创建
