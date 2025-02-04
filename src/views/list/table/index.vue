@@ -38,8 +38,8 @@
                     @click="handleSearch">
                     搜索
                 </a-button>
-                <a @click="() => (collapsed = !collapsed)">
-                    展开
+                <a @click="toggleCollapse">
+                    {{ collapsed ? '展开' : '折叠' }}
                     <template v-if="collapsed">
                         <down-outlined class="fs-12"></down-outlined>
                     </template>
@@ -93,34 +93,47 @@
                 </a-space>
             </template>
         </x-toolbar>
-        <a-table
-            :columns="columns"
-            :data-source="listData"
-            :loading="loading"
-            :pagination="paginationState"
-            :size="size"
-            class="mt-8-2"
-            row-key="id"
-            @change="onTableChange">
-            <template #bodyCell="{ column, record }">
-                <template v-if="'action' === column.key">
-                    <x-action-button @click="$refs.editDialogRef.handleEdit(record)">编辑</x-action-button>
-                    <x-action-button @click="handleDelete(record)">删除</x-action-button>
-                    <x-action-button>
-                        <a-dropdown :trigger="['click']">
-                            <more-outlined></more-outlined>
-                            <template #overlay>
-                                <a-menu>
-                                    <a-menu-item>菜单1</a-menu-item>
-                                    <a-menu-item>菜单2</a-menu-item>
-                                    <a-menu-item>菜单3</a-menu-item>
-                                </a-menu>
-                            </template>
-                        </a-dropdown>
-                    </x-action-button>
+        <div :style="{ height: tableHeight + 'px', overflow: 'auto' }">
+            <a-table
+                :columns="columns"
+                :data-source="listData"
+                :loading="loading"
+                :pagination="paginationState"
+                :size="size"
+                class="mt-8-2"
+                row-key="id"
+                @change="onTableChange">
+                <template #bodyCell="{ column, record }">
+                    <template v-if="'action' === column.key">
+                        <x-action-button @click="$refs.editDialogRef.handleEdit(record)">编辑</x-action-button>
+                        <x-action-button @click="handleDelete(record)">删除</x-action-button>
+                        <x-action-button>
+                            <a-dropdown :trigger="['click']">
+                                <more-outlined></more-outlined>
+                                <template #overlay>
+                                    <a-menu>
+                                        <a-menu-item>菜单1</a-menu-item>
+                                        <a-menu-item>菜单2</a-menu-item>
+                                        <a-menu-item>菜单3</a-menu-item>
+                                    </a-menu>
+                                </template>
+                            </a-dropdown>
+                        </x-action-button>
+                    </template>
                 </template>
-            </template>
-        </a-table>
+            </a-table>
+            <a-pagination
+                :total="paginationState.total"
+                :page-size="paginationState.pageSize"
+                :current="paginationState.current"
+                show-quick-jumper
+                :page-size-options="pageSizeOptions"
+                show-size-changer
+                @change="onPageChange"
+                @showSizeChange="onPageSizeChange"
+                :show-total="showTotal"
+                class="pagination" />
+        </div>
     </a-card>
 
     <edit-dialog
@@ -131,6 +144,8 @@
 <script setup>
 import { message, Modal } from 'ant-design-vue'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 import {
     ColumnHeightOutlined,
     DownOutlined,
@@ -149,6 +164,7 @@ defineOptions({
     name: 'listTable',
 })
 
+const { t } = useI18n()
 const { listData, paginationState, loading, showLoading, hideLoading, resetPagination, searchFormData } =
     usePagination()
 
@@ -162,6 +178,8 @@ const columns = ref([
 const editDialogRef = ref()
 const collapsed = ref(true)
 const size = ref('default')
+const tableHeight = ref(670) // 初始高度
+const pageSizeOptions = ref(['10', '20', '30', '40', '50'])
 
 getPageList()
 
@@ -237,13 +255,40 @@ function handleSize({ key }) {
 
 /**
  * 表格发生改变
- * @param current
+ * @param pagination
+ */
+function onTableChange(pagination) {
+    paginationState.current = pagination.current
+    paginationState.pageSize = pagination.pageSize
+    getPageList()
+}
+
+/**
+ * 分页变化
+ * @param page
+ */
+function onPageChange(page) {
+    paginationState.current = page
+    getPageList()
+}
+/**
+ * 每页条数变化
  * @param pageSize
  */
-function onTableChange({ current, pageSize }) {
-    paginationState.current = current
+function onPageSizeChange(current, pageSize) {
     paginationState.pageSize = pageSize
+    paginationState.current = current
     getPageList()
+    console.log(current, pageSize)
+}
+
+/**
+ * 显示总数
+ * @param {number} total
+ * @param {Array} range
+ */
+function showTotal(total) {
+    return t('labels.totalitems', { count: total })
 }
 
 /**
@@ -252,6 +297,26 @@ function onTableChange({ current, pageSize }) {
 function onOk() {
     getPageList()
 }
+
+/**
+ * 切换展开和折叠
+ */
+function toggleCollapse() {
+    collapsed.value = !collapsed.value
+    tableHeight.value = collapsed.value ? 670 : 625 // 根据展开状态设置高度
+}
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.table-container {
+    position: relative;
+    padding-bottom: 60px; /* 给分页组件留出空间 */
+}
+
+.pagination {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+</style>

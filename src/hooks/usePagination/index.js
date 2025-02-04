@@ -1,6 +1,8 @@
 import { reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default (options = {}) => {
+    const { t } = useI18n()
     const loading = ref(false)
     const listData = ref([])
     const searchFormData = ref({})
@@ -10,7 +12,7 @@ export default (options = {}) => {
         pageSize: 10,
         showSizeChanger: true,
         showQuickJumper: true,
-        showTotal: (total) => `总 ${total} 条数据`,
+        showTotal: (total) => t('labels.totalitems', { count: total }), // 使用 t 函数进行翻译
         pageSizeOptions: ['10', '20', '30', '40'],
         ...(options ?? {}),
     })
