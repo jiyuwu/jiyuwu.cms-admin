@@ -178,7 +178,8 @@ const columns = ref([
 const editDialogRef = ref()
 const collapsed = ref(true)
 const size = ref('default')
-const tableHeight = ref(670) // 初始高度
+const screenHeight = ref(window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight)
+const tableHeight = ref(screenHeight.value - 285) // 初始高度
 const pageSizeOptions = ref(['10', '20', '30', '40', '50'])
 
 getPageList()
@@ -303,7 +304,7 @@ function onOk() {
  */
 function toggleCollapse() {
     collapsed.value = !collapsed.value
-    tableHeight.value = collapsed.value ? 670 : 625 // 根据展开状态设置高度
+    tableHeight.value = collapsed.value ? screenHeight.value - 285 : screenHeight.value - 330 // 根据展开状态设置高度
 }
 </script>
 
