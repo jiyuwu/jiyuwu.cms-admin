@@ -63,7 +63,8 @@ export type RenderScope<T> = {
   [key: string]: any;
 };
 
-export type HeaderRenderScope = {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type HeaderRenderScope<T> = {
   $index: number;
   column: TableColumnCtx<any>;
   [key: string]: any;
@@ -79,7 +80,7 @@ export interface ColumnProps<T = any>
   enum?: EnumProps[] | Ref<EnumProps[]> | ((params?: any) => Promise<any>); // 枚举字典
   isFilterEnum?: boolean | Ref<boolean>; // 当前单元格值是否根据 enum 格式化（示例：enum 只作为搜索项数据）
   fieldNames?: FieldNamesProps; // 指定 label && value && children 的 key 值
-  headerRender?: (scope: HeaderRenderScope) => VNode; // 自定义表头内容渲染（tsx语法）
+  headerRender?: (scope: HeaderRenderScope<T>) => VNode; // 自定义表头内容渲染（tsx语法）
   render?: (scope: RenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
   _children?: ColumnProps<T>[]; // 多级表头
 }
