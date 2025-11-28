@@ -33,6 +33,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         scss: {
+          // 1. 启用现代编译器 API，解决 legacy-js-api 警告
+          api: "modern-compiler",
+          // 2. 显式屏蔽 "legacy-js-api" 和 "import" 的废弃警告
+          silenceDeprecations: ["legacy-js-api", "import"],
+          // 3. 保持你原有的全局变量引入（不要删掉这行，否则样式会报错）
           additionalData: `@import "@/styles/var.scss";`
         }
       }
