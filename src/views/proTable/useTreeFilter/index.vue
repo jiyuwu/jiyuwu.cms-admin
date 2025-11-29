@@ -14,6 +14,7 @@
         :request-api="getUserList"
         :init-param="initParam"
         :search-col="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }"
+        @sort-change="handleSortChange"
       >
         <!-- 表格 header 按钮 -->
         <template #tableHeader>
@@ -72,13 +73,31 @@ const toDetail = () => {
 const proTable = ref<ProTableInstance>();
 
 // 如果表格需要初始化请求参数，直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
-const initParam = reactive({ departmentId: "1" });
+const initParam = reactive({ departmentId: "1", sortField: "", sortOrder: "" });
 
 // 树形筛选切换
 const changeTreeFilter = (val: string) => {
   ElMessage.success("请注意查看请求参数变化 🤔");
   proTable.value!.pageable.pageNum = 1;
   initParam.departmentId = val;
+};
+
+// 处理排序变化的函数
+const handleSortChange = ({ prop, order }: { prop: string; order: string | null }) => {
+  if (prop) {
+    initParam.sortField = prop;
+    if (order === "ascending") {
+      initParam.sortOrder = "asc";
+    } else if (order === "descending") {
+      initParam.sortOrder = "desc";
+    } else {
+      // 如果 order 为 null，表示取消排序，重置排序参数
+      initParam.sortField = "";
+      initParam.sortOrder = "";
+    }
+  }
+  // 重新请求表格数据，此时 ProTable 会自动带上更新后的 initParam
+  proTable.value?.getTableList();
 };
 
 // 表格配置项
@@ -89,7 +108,7 @@ const columns = reactive<ColumnProps<User.ResUserList>[]>([
     prop: "gender",
     label: "性别",
     width: 120,
-    sortable: true,
+    sortable: "custom",
     enum: getUserGender,
     search: { el: "select" },
     fieldNames: { label: "genderLabel", value: "genderValue" }
@@ -101,7 +120,7 @@ const columns = reactive<ColumnProps<User.ResUserList>[]>([
     prop: "status",
     label: "用户状态",
     width: 120,
-    sortable: true,
+    sortable: "custom",
     tag: true,
     enum: getUserStatus,
     search: { el: "select" },
